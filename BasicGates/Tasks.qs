@@ -47,7 +47,7 @@ namespace Quantum.Kata.BasicGates
             // The Pauli X gate will change the |0〉 state to the |1〉 state and vice versa.
             // Type X(q);
             // Then rebuild the project and rerun the tests - T11_StateFlip_Test should now pass!
-            
+            X(q);
             // ...
         }
         adjoint self;
@@ -65,7 +65,9 @@ namespace Quantum.Kata.BasicGates
     {
         body
         {
-            // ...
+            // Hadamard (H) gate
+            // The hadamard gate is the one-qubit version of the quantum fourier transform.
+            H(q);
         }
         adjoint self;
     }
@@ -77,7 +79,12 @@ namespace Quantum.Kata.BasicGates
     {
         body
         {
-            // ...
+            // The Pauli-Z gate acts on a single qubit. It equates to a rotation around the Z-axis of the 
+            // Bloch sphere by {\displaystyle \pi } \pi  radians. Thus, it is a special case of a phase shift gate 
+            // with {\displaystyle \phi =\pi } \phi =\pi . It leaves the basis state {\displaystyle |0\rangle } |0\rangle  
+            // unchanged and maps {\displaystyle |1\rangle } |1\rangle  to {\displaystyle -|1\rangle } -|1\rangle. 
+            // Due to this nature, it is sometimes called phase-flip. It is represented by the Pauli Z matrix:
+            Z(q);
         }
         adjoint self;
     }
@@ -95,6 +102,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            Ry(2.0 * alpha, q);
         }
         adjoint auto;
     }
@@ -107,6 +115,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            S(q);
         }
         adjoint auto;
     }
@@ -124,6 +133,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            Rz(alpha, q);
         }
         adjoint auto;
     }
@@ -136,6 +146,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            Z(qs[0]);
         }
         adjoint auto;
     }
@@ -147,7 +158,8 @@ namespace Quantum.Kata.BasicGates
     {
         body
         {
-            // ...
+            // ...)
+            X(qs[0]);
         }
         adjoint auto;
     }
@@ -160,6 +172,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            Y(qs[0]);
         }
         adjoint auto;
     }
@@ -182,6 +195,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            CNOT(qs[0], qs[1]);
         }
         adjoint self;
     }
@@ -197,6 +211,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            (Controlled Z)([qs[0]], qs[1]);
         }
         adjoint self;
     }
@@ -213,6 +228,7 @@ namespace Quantum.Kata.BasicGates
             // as an exercise, try to express the solution using several 
             // (possibly controlled) Pauli gates.
 
+            SWAP(qs[0], qs[1]);
             // ...
         }
         adjoint self;
@@ -229,6 +245,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            CCNOT(qs[0], qs[1], qs[2]);
         }
         adjoint self;
     }
@@ -243,6 +260,7 @@ namespace Quantum.Kata.BasicGates
         body
         {
             // ...
+            (Controlled SWAP)([qs[0]], (qs[1], qs[2]));
         }
         adjoint self;
     }
