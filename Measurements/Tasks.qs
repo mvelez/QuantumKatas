@@ -39,7 +39,8 @@ namespace Quantum.Kata.Measurements
         body
         {
             // ...
-            return false;
+            let measurement = M(q);
+            return IsResultOne(measurement);
         }
     }
 
@@ -52,8 +53,10 @@ namespace Quantum.Kata.Measurements
     {
         body
         {
-            // ...
-            return false;
+            // apply hadamard gate first to put it into + or - state
+            H(q);
+            let measurement = M(q);
+            return IsResultZero(measurement);
         }
     }
 
@@ -70,7 +73,11 @@ namespace Quantum.Kata.Measurements
         body
         {
             // ...
-            return false;
+            // Ry forward would go from |0> to |A> so bring it backwards... 
+            Ry(-2.0 * alpha, q);
+
+            let measurement = M(q);
+            return IsResultZero(measurement);
         }
     }
 
@@ -83,8 +90,12 @@ namespace Quantum.Kata.Measurements
     {
         body
         {
-            // ...
-            return -1;
+
+            if (IsQubitOne(qs[0])) {
+                return 1;
+            }
+            return 0;
+            
         }
     }
 
@@ -104,7 +115,17 @@ namespace Quantum.Kata.Measurements
         body
         {
             // ...
-            return -1;
+            let isFirstOne = IsQubitOne(qs[0]);
+            let isSecondOne = IsQubitOne(qs[1]);
+
+            if (isFirstOne && isSecondOne) {
+                return 3;
+            } elif (isFirstOne && !isSecondOne) {
+                return 2;
+            } elif (!isFirstOne && isSecondOne) {
+                return 1;
+            } 
+            return 0;
         }
     }
 
@@ -126,7 +147,26 @@ namespace Quantum.Kata.Measurements
     {
         body
         {
-            // ...
+        
+            mutable matchesBits1 = true;
+            mutable matchesBits2 = true;
+
+            for (i in 0..Length(qs) - 1) {
+                let resultBool = IsQubitOne(qs[i]);
+                if (resultBool != bits1[i]) {
+                    set matchesBits1 = false;
+                }
+
+                if (resultBool != bits2[i]) {
+                    set matchesBits2 = false;
+                }
+            }
+
+            if (matchesBits1) {
+                return 0;
+            } elif (matchesBits2) {
+                return 1;
+            }
             return -1;
         }
     }
@@ -142,8 +182,19 @@ namespace Quantum.Kata.Measurements
     {
         body
         {
-            // ...
-            return -1;
+            mutable matchesZeroState = true;
+
+            for (i in 0..Length(qs) - 1) {
+                let resultBool = IsQubitOne(qs[i]);
+                if (resultBool) {
+                    set matchesZeroState = false;
+                }
+            }
+            
+            if (matchesZeroState) {
+                return 0;
+            } 
+            return 1;
         }
     }
 
@@ -158,8 +209,23 @@ namespace Quantum.Kata.Measurements
     {
         body
         {
-            // ...
-            return -1;
+            mutable oneCount = 0;
+
+            for (i in 0..Length(qs) - 1) {
+                let resultBool = IsQubitOne(qs[i]);
+                if (resultBool) {
+                    set oneCount = oneCount + 1;
+                }
+            }
+            
+            // Message("1 count: ");
+            // Message(oneCount);
+
+            // W state will have only one 1, GHZ state will have more or less
+            if (oneCount == 1) {
+                return 1;
+            } 
+            return 0;
         }
     }
 
